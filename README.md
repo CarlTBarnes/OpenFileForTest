@@ -6,3 +6,35 @@ Test your File code (Open, Copy, Remove) handles errors correctly when a program
  what modes can be used to open and read the file.
 
 ![main window](images/readme.png)
+
+# FileLockCheck
+
+FileLockCheck is intended for use in BAT files to check if a file is in use before doing a COPY
+ or other operation. It displays the window below to inform the user of the problem.
+ Once the file lock succeeds message turns green and closes in 30 seconds.
+ 
+Because it is intended for BAT file use it sets the ERRORLEVEL as follows:
+
+ErrorLevel ! Reason
+0 ! Lock Succeeded
+1 ! Lock Failed
+2 ! File does not exist
+
+Typical BAT code would be:
+```
+REM Check if file can be locked then copy
+FileLockCheck FileNameXYZ.TPS
+IF NOT ERRORLEVEL 1  GOTO :CanCopy
+ECHO Unable to Copy FileNameXYZ.TPS
+IF ERRORLEVEL 2 ECHO File does not exist
+PAUSE
+GOTO :EOF
+
+:CanCopy
+COPY FileNameXYZ.TPS X:\Target
+GOTO 
+```
+
+![main window](images/readme1.png)
+
+![main window](images/readme2.png)

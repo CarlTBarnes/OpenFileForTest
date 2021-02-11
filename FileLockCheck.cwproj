@@ -1,0 +1,31 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{1D577950-E199-457E-95B2-3E9B313F788D}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">Win32</Platform>
+    <OutputType>WinExe</OutputType>
+    <AssemblyName>FileLockCheck</AssemblyName>
+    <OutputName>FileLockCheck</OutputName>
+    <Model>Lib</Model>
+    <ApplicationIcon>FileLockChk.ICO</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <vid>full</vid>
+    <check_stack>True</check_stack>
+    <check_index>True</check_index>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+    <vid>off</vid>
+    <check_stack>False</check_stack>
+    <check_index>False</check_index>
+  </PropertyGroup>
+  <ItemGroup>
+    <Library Include="C%25V%25DOS%25X%25%25L%25.LIB" />
+    <Compile Include="FileLockCheck.clw" />
+  </ItemGroup>
+  <Import Project="$(ClarionBinPath)\SoftVelocity.Build.Clarion.targets" />
+</Project>
