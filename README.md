@@ -20,7 +20,7 @@ Because it is intended for BAT file use it sets the ERRORLEVEL as follows:
 
 | ErrorLevel | Reason |
 | :--------: | ------ |
-! 0 | Lock Succeeded |
+| 0 | Lock Succeeded |
 | 1 | Lock Failed |
 | 2 | File does not exist |
 
