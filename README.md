@@ -10,15 +10,19 @@ Test your File code (Open, Copy, Remove) handles errors correctly when a program
 # FileLockCheck
 
 FileLockCheck is intended for use in BAT files to check if a file is in use before doing a COPY
- or other operation. It displays the window below to inform the user of the problem.
- Once the file lock succeeds message turns green and closes in 30 seconds.
+ or other operation that requires exclusive access ("Read Only + Deny All").
+ It displays the window below to inform the user of the problem so they can
+ try to get the file closed or cancel.
+ The lock is retried every 3 seconds.
+ Once the lock succeeds the message turns green and closes in 3 seconds.
  
 Because it is intended for BAT file use it sets the ERRORLEVEL as follows:
 
-ErrorLevel ! Reason
-0 ! Lock Succeeded
-1 ! Lock Failed
-2 ! File does not exist
+| ErrorLevel | Reason |
+| :--------: | ------ |
+! 0 | Lock Succeeded |
+| 1 | Lock Failed |
+| 2 | File does not exist |
 
 Typical BAT code would be:
 ```
@@ -32,9 +36,11 @@ GOTO :EOF
 
 :CanCopy
 COPY FileNameXYZ.TPS X:\Target
-GOTO 
 ```
 
 ![main window](images/readme1.png)
 
 ![main window](images/readme2.png)
+
+The easy way to test FileLockCheck is to use OpenFileForTest to "Open File" as Deny All then run FileLockCheck.
+ Click "Close File" to see FileLockCheck turn green then close.

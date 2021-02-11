@@ -70,22 +70,34 @@ Window WINDOW('File Lock Check'),AT(,,296,100),CENTER,GRAY,SYSTEM,ICON('FileLock
         BUTTON('&Cancel'),AT(161,72,59,17),USE(?CancelBtn),STD(STD:Close)
         IMAGE('FileLockChk.ICO'),AT(5,65,39,31),USE(?Image1),CENTERED
     END
-
+HaltCode LONG(0)
     code
     Glo:FileName2Test = command('')
 
     if ~Glo:FileName2Test and exists('testfile.xxx') then
-        Glo:FileName2Test= LongPath() & '\testfile.xxx'
+        Glo:FileName2Test= 'TestFile.xxx'
         xxxTestFileFlag=True
     end
-       !Glo:FileName2Test='/?'
+
+    if ~Glo:FileName2Test then
+        case message('No File name was specified on the command line' & |
+                '||Syntax:     FileLockCheck FILENAME' & |
+                '|Help /?' & |
+                '||Path: ' & LongPath() &'|EXE:   ' & Command('0'), |
+                'FileLockCheck','~FileLockChk.ico','Close|View Help') 
+        of 1 ; HALT(2)  
+        of 2 ; HaltCode=2 ; Glo:FileName2Test='?'
+        end
+    end
+    
+       !Glo:FileName2Test='/?'     !test help
     case lower(Glo:FileName2Test)
     of '?'
     orof '/?'
     orof '\?'
     orof '-?'
     orof 'help'
-        Message('FileLockCheck tests if a file can be opened for exclusive access.' & |
+        message('FileLockCheck tests if a file can be opened for exclusive access.' & |
                 '||If the file cannot be opened a window displays telling users to get out. ' & |
                 '|This is designed for use in a BAT file to assure a file is closed before COPY. ' & |
                 '||Syntax: FileLockCheck FileName' &  |
@@ -94,17 +106,9 @@ Window WINDOW('File Lock Check'),AT(,,296,100),CENTER,GRAY,SYSTEM,ICON('FileLock
                 '||<9>FileLockCheck FileNameXYZ.TPS' & |
                 '|<9>    IF ERRORLEVEL 2  GOTO :FileAWHOL|<9>    IF ERRORLEVEL 1  GOTO :FileLocked|' & |
                 '||Path: ' & LongPath() &'|EXE:   ' & Command('0') & |
-                '','FileLockCheck Help')
-        HALT(0)
+                '','FileLockCheck Help','~FileLockChk.ico')
+        HALT(HaltCode)
     end
-    IF ~Glo:FileName2Test THEN
-        Message('No File name was specified on the command line' & |
-                '||Syntax:     FileLockCheck FILENAME' & |
-                '|Help /?' & |
-                '||Path: ' & LongPath() &'|EXE:   ' & Command('0') & |
-                '','FileLockCheck')
-        HALT(2)
-    END
 
     OpenThisFileName = Glo:FileName2Test    !'D:\Dev5\BCS32\UTIL\WriteIniTest\GetRegAPItest\settings.ini'
 
