@@ -10,13 +10,14 @@ Test your File code (Open, Copy, Remove) handles errors correctly when a program
 # FileLockCheck
 
 FileLockCheck is intended for use in BAT files to check if a file is in use before doing a COPY
- or other operation that requires exclusive access ("Read Only + Deny All").
+ or other operation that requires exclusive access.
  It displays the window below to inform the user of the problem so they can
  try to get the file closed or cancel.
  The lock is retried every 3 seconds.
  Once the lock succeeds the message turns green and closes in 3 seconds.
+ The file is opened  "Read Only + Deny All" so it is not touched.
  
-Because it is intended for BAT file use it sets the ERRORLEVEL as follows:
+Because it is intended for BAT file use. on exit it sets the ERRORLEVEL as follows:
 
 | ErrorLevel | Reason |
 | :--------: | ------ |
